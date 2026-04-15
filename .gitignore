@@ -1,0 +1,9 @@
+node_modules/
+.env
+build/
+dist/
+.DS_Store
+*.db
+local.db
+uploads/
+package-lock.json (optional, but usually kept)
