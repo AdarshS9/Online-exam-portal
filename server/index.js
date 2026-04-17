@@ -35,7 +35,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/student', studentRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Online Quiz & Exam Platform API');
+  res.json({ status: 'online', message: 'Online Quiz & Exam Platform API' });
 });
 
 // Final 404 Handler for API
