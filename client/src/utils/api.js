@@ -7,10 +7,15 @@ export const apiFetch = async (endpoint, options = {}, retries = 2) => {
   const url = endpoint.startsWith('http') ? endpoint : `${API_URL}${endpoint}`;
   const method = options.method || 'GET';
 
-  console.log(`[API Request] ${method} ${url}`, options.body ? JSON.parse(options.body) : '');
+  // Add a 10-second timeout to prevent "infinite loading"
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+  console.log(`[API Request] ${method} ${url}`);
 
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(timeoutId);
     
     // Log response status
     console.log(`[API Response] ${method} ${url} - Status: ${response.status}`);
