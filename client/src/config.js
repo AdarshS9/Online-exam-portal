@@ -1,1 +1,1 @@
-export const API_URL = 'http://127.0.0.1:5000'; // Using IP to avoid localhost resolution issues
+export const API_URL = ''; // Empty string allows relative routing via Vite proxy
