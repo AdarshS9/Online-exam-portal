@@ -4,7 +4,7 @@ A professional-grade, full-stack online examination platform featuring role-base
 
 ## 🚀 Quick Access (Development)
 The application is currently available on the local network at:
-**[http://192.168.1.17:5173](http://192.168.1.17:5173)**
+**[http://192.168.1.17:5175](http://192.168.1.17:5175)**
 
 ## 🛠️ Technology Stack
 - **Frontend**: React, Vite, Lucide React, Chart.js

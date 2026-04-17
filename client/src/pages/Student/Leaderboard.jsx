@@ -26,8 +26,8 @@ const LeaderRow = ({ entry, isTop3 }) => (
     
     <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
       <div style={{ textAlign: 'right' }}>
-        <p style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--primary)', margin: 0 }}>{entry.total_score}</p>
-        <p style={{ fontSize: '0.65rem', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase', margin: 0 }}>Points</p>
+        <p style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--primary)', margin: 0 }}>{entry.total_score}</p>
+        <p style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', margin: 0, letterSpacing: '0.05em' }}>Performance</p>
       </div>
       <ChevronRight size={18} style={{ opacity: 0.2 }} />
     </div>

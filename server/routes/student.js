@@ -258,23 +258,32 @@ router.post('/run-code', async (req, res) => {
   }, 1000); // Simulate network/execution delay
 });
 
-// Get Leaderboard
+// Get Leaderboard (Performance-Based Ranking)
 router.get('/leaderboard', async (req, res) => {
   try {
     const result = await client.execute(`
-      SELECT u.name, SUM(a.score) as total_score, COUNT(a.id) as tests_completed,
-             MIN(JULIANDAY(a.submit_time) - JULIANDAY(a.start_time)) as best_time
+      SELECT 
+        u.name, 
+        COUNT(DISTINCT a.id) as tests_completed,
+        SUM(CASE WHEN ans.is_correct = 1 THEN 1 ELSE 0 END) as total_correct,
+        COUNT(ans.id) as total_questions,
+        CASE 
+          WHEN COUNT(ans.id) > 0 THEN ROUND(CAST(SUM(CASE WHEN ans.is_correct = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(ans.id) * 100)
+          ELSE 0 
+        END as percentage
       FROM users u
       JOIN attempts a ON u.id = a.user_id
+      JOIN answers ans ON a.id = ans.attempt_id
       WHERE a.status = 'SUBMITTED'
       GROUP BY u.id
-      ORDER BY total_score DESC, best_time ASC, MAX(a.submit_time) ASC
+      ORDER BY percentage DESC, tests_completed DESC
       LIMIT 50
     `);
     
     const leaders = result.rows.map((r, i) => ({
       ...r,
       rank: i + 1,
+      total_score: `${r.percentage}%`, // Map percentage to total_score for UI
       avatar: r.name.split(' ').map(n => n[0]).join('')
     }));
 

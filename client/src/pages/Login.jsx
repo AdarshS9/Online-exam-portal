@@ -7,7 +7,7 @@ import { useToast } from '../context/ToastContext';
 import { API_URL } from '../config';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Login = () => {
       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: username, password }),
       });
 
       const data = await response.json();
@@ -54,14 +54,14 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="section-stack">
           <div style={{ textAlign: 'left' }}>
-            <label style={{ fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem' }}>Email</label>
+            <label style={{ fontSize: '0.85rem', fontWeight: '600', display: 'block', marginBottom: '0.5rem' }}>Username</label>
             <input
-              type="email"
+              type="text"
               required
               className="input-clean"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
