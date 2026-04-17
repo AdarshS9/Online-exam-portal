@@ -4,7 +4,7 @@ import { Mail, Lock, GraduationCap, ArrowRight } from 'lucide-react';
 import { useAuth } from '../App';
 import { useToast } from '../context/ToastContext';
 
-import { API_URL } from '../config';
+import { apiFetch } from '../utils/api';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -19,14 +19,11 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/login`, {
+      const data = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: username, password }),
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Login failed');
 
       login(data);
       addToast(`Welcome back, ${data.user.name}!`, 'success');

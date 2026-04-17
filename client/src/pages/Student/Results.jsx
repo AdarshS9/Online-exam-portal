@@ -13,7 +13,7 @@ import {
   X,
   FileText
 } from 'lucide-react';
-import { API_URL } from '../../config';
+import { apiFetch } from '../../utils/api';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -29,14 +29,11 @@ const Results = () => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/student/attempts/${attemptId}/report`, {
+        const data = await apiFetch(`/api/student/attempts/${attemptId}/report`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
-        const data = await res.json();
-        if (res.ok) {
-          setReport(data.attempt);
-          setAnswers(data.answers || []);
-        }
+        setReport(data.attempt);
+        setAnswers(data.answers || []);
       } catch (err) {
         console.error(err);
       } finally {
