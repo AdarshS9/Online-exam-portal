@@ -7,9 +7,9 @@ export const apiFetch = async (endpoint, options = {}, retries = 2) => {
   const url = endpoint.startsWith('http') ? endpoint : `${API_URL}${endpoint}`;
   const method = options.method || 'GET';
 
-  // Add a 10-second timeout to prevent "infinite loading"
+  // Add a 30-second timeout to give Render/Turso time to wake up
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   console.log(`[API Request] ${method} ${url}`);
 
@@ -51,6 +51,10 @@ export const apiFetch = async (endpoint, options = {}, retries = 2) => {
     return isJson ? await response.json() : await response.text();
 
   } catch (error) {
+    clearTimeout(timeoutId);
+    if (error.name === 'AbortError') {
+      throw new Error('Server is taking longer to respond. It is likely waking up. Please try again in 5 seconds.');
+    }
     if (retries > 0 && error.message.includes('Failed to fetch')) {
       console.warn(`[API Retry] Network error, retrying... (${retries} left)`);
       await new Promise(res => setTimeout(res, 1500));
