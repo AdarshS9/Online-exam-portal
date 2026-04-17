@@ -1,1 +1,1 @@
-export const API_URL = ''; // Empty string allows relative routing via Vite proxy
+export const API_URL = import.meta.env.VITE_API_URL || '';
