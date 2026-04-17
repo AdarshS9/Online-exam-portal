@@ -29,7 +29,10 @@ const Login = () => {
       addToast(`Welcome back, ${data.user.name}!`, 'success');
       navigate(data.user.role === 'ADMIN' ? '/admin' : '/student');
     } catch (err) {
-      addToast(err.message, 'error');
+      // Show the targeted URL for easier debugging
+      const debugInfo = `Connection failed to: ${import.meta.env.VITE_API_URL || '(Empty URL)'}`;
+      addToast(`${err.message}. ${debugInfo}`, 'error');
+      console.error(debugInfo);
     } finally {
       setLoading(false);
     }
